@@ -148,6 +148,10 @@ D<-diag(colSums(Gsub))
 L<-D-Gsub
 H=-L
 
+decom<-eigen(L)
+R<-decom$vectors
+Lamda<-decom$values
+
 input<-as.matrix(finaldata)
 remy0<-which(input[nrow(input),]==0)
 input<-input[,-remy0]
@@ -179,7 +183,7 @@ tune<-seq(-1,1,0.1)
 difp<-NULL
 
 for (i in 1:length(tune)) {
-  dif=diag(1,nrow(H),ncol(H))+tune[i]*H+(tune[i]^2)/factorial(2)*H^2
+  dif=R%*%diag(exp(-tune[j]*Lamda))%*%t(R)
   difker<-Kernelsim(a,dif)
   #difker<-a%*%dif%*%t(a)
   SKATdifker<-SKAT.linear.Other(obj1$res,a,obj1$X1,kernel = difker,weights = NULL,obj1$s2,method = 'davies',obj1$res.out,obj1$n.Resampling)
