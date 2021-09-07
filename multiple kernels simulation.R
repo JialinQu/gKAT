@@ -35,6 +35,9 @@ D=diag(colSums(A))
 L=D-A
 H=-L
 
+decom<-eigen(L)
+R<-decom$vectors
+Lamda<-decom$values
 
 gp1<-NULL
 gp11<-NULL
@@ -98,7 +101,7 @@ for (i in 1:runnum) {
   difp11<-NULL
   difp12<-NULL
   for (i in 1:length(tune)) {
-    dif=diag(1,nrow(H),ncol(H))+tune[i]*H+(tune[i]^2)/factorial(2)*H^2
+    dif=R%*%diag(exp(-tune[i]*Lamda))%*%t(R)
     difker1<-Kernelsim(X,dif)
     difker2<-X%*%dif%*%t(X)
     SKATdifker11<-SKAT.linear.Other(obj1$res,X,obj1$X1,kernel = difker1,weights = NULL,obj1$s2,method = 'davies',obj1$res.out,obj1$n.Resampling)
