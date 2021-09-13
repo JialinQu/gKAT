@@ -1,3 +1,7 @@
+##Some of the functions of were borrowed from SKAT package 
+
+
+
 SKAT.logistic.Other = function(res, Z, X1, kernel , weights = NULL, pi_1, method,res.out,n.Resampling){
   
   n = nrow(Z) 
